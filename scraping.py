@@ -7,17 +7,21 @@ web = 'https://trii.co/stock-list#companies'
 result = requests.get(web)
 content = result.text
 
-soup = BeautifulSoup(content, 'html')
+#Extract html
+soup = BeautifulSoup(content, 'lxml')
+company = soup.find_all('div', class_ = 'card_stock')
 
-# We identify the element where the desired information is located.
-list = soup.find(id = 'local')
+#Empty list to add.
+companies = []
 
-# We iterate through the elements to extract the data.
-for data  in list:
-    company = list.find('ul', id = 'paginated-list').get_text()
-    print(company)
+#Item iteration.
+for item_company in company:
+    title = item_company.find('h2').getText()
+    value = item_company.find('div', class_='title').getText()
+    companies.append(title)
+    companies.append(value)
 
-# We export the data obtained to an excel file.
-with open('./scrape.csv', 'w') as test_file:
-    csv_test = csv.writer(test_file, dialect='excel')
-    csv_test.writerows(zip(company))
+#Create CSV file.
+with open('company.csv', 'w') as file:
+    csv_reader = csv.writer(file, delimiter=',')
+    csv_reader.writerows(zip(companies))
