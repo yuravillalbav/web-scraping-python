@@ -5,4 +5,4 @@ Data extraction from a web page and saved in an Excel file.
 ### Bookshop  📚
 + beautifulsoup4.
 + requests.
-+ csv.
++ Pandas.
